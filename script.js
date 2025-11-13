@@ -4,6 +4,7 @@ class TodoApp {
     constructor() {
         this.todos = [];
         this.currentFilter = 'all';
+        this.idCounter = 0;
         this.init();
     }
 
@@ -50,7 +51,7 @@ class TodoApp {
         }
 
         const todo = {
-            id: Date.now(),
+            id: this.generateUniqueId(),
             text: text,
             completed: false,
             createdAt: new Date().toISOString()
@@ -63,7 +64,8 @@ class TodoApp {
     }
 
     toggleTodo(id) {
-        const todo = this.todos.find(t => t.id === id);
+        // 確保 ID 匹配（處理字符串和數字類型的 ID）
+        const todo = this.todos.find(t => String(t.id) === String(id));
         if (todo) {
             todo.completed = !todo.completed;
             this.saveTodos();
@@ -72,7 +74,8 @@ class TodoApp {
     }
 
     deleteTodo(id) {
-        this.todos = this.todos.filter(t => t.id !== id);
+        // 確保 ID 匹配（處理字符串和數字類型的 ID）
+        this.todos = this.todos.filter(t => String(t.id) !== String(id));
         this.saveTodos();
         this.render();
     }
@@ -161,11 +164,22 @@ class TodoApp {
         if (saved) {
             try {
                 this.todos = JSON.parse(saved);
+                // 初始化 ID counter 為現有 todos 的數量，確保新 ID 不會與現有 ID 衝突
+                // 新的 ID 格式包含時間戳、計數器和隨機數，即使 counter 從 0 開始也不會衝突
+                // 但為了更好的唯一性，我們將 counter 設置為現有 todos 的數量
+                this.idCounter = this.todos.length;
             } catch (e) {
                 console.error('載入待辦事項失敗:', e);
                 this.todos = [];
+                this.idCounter = 0;
             }
         }
+    }
+
+    generateUniqueId() {
+        // 使用時間戳 + 遞增計數器 + 隨機數確保唯一性
+        this.idCounter++;
+        return `${Date.now()}-${this.idCounter}-${Math.random().toString(36).substr(2, 9)}`;
     }
 }
 
