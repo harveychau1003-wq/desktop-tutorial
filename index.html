@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>待辦事項清單</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 待辦事項清單</h1>
+            <p class="subtitle">管理你的任務，提高工作效率</p>
+        </header>
+
+        <div class="todo-input-section">
+            <div class="input-wrapper">
+                <input 
+                    type="text" 
+                    id="todoInput" 
+                    placeholder="輸入新的待辦事項..." 
+                    autocomplete="off"
+                >
+                <button id="addBtn" class="add-button">
+                    <span>新增</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="active">待完成</button>
+            <button class="filter-btn" data-filter="completed">已完成</button>
+        </div>
+
+        <div class="todo-stats">
+            <span id="todoCount">0 個待辦事項</span>
+            <button id="clearCompleted" class="clear-btn">清除已完成</button>
+        </div>
+
+        <ul id="todoList" class="todo-list">
+            <!-- 待辦事項將動態添加到此處 -->
+        </ul>
+
+        <div id="emptyState" class="empty-state">
+            <p>🎯 還沒有待辦事項</p>
+            <p class="empty-hint">在上方輸入框添加你的第一個任務吧！</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
